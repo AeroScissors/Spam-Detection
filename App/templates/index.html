@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Detection - URL & Email Scanner</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            width: 100%;
+        }
+        .result-card {
+            margin-top: 20px;
+        }
+        .loader {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card p-4">
+            <h2 class="text-center">🛡️ Spam Detection System</h2>
+            <p class="text-center">Enter a URL or Email to check for spam.</p>
+
+            <form id="scanForm" method="POST">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="user_input" id="user_input" placeholder="Enter URL or Email" required>
+                </div>
+                <button type="submit" class="btn btn-primary">🔍 Scan</button>
+            </form>
+
+            <!-- Loader (Hidden initially) -->
+            <div class="loader" id="loader">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Scanning...</span>
+                </div>
+                <p>Scanning, please wait...</p>
+            </div>
+
+            <!-- Display Scan Results -->
+            {% if website_result %}
+            <div class="alert alert-success result-card">
+                ✅ <strong>Scan Successful:</strong> 
+                <a href="{{ website_result }}" target="_blank">View Scan Report</a>
+            </div>
+            {% endif %}
+
+            {% if email_result %}
+            <div class="alert alert-info result-card">
+                📧 <strong>Email Check:</strong> {{ email_result }}
+            </div>
+            {% endif %}
+
+            {% if website_error or email_error %}
+            <div class="alert alert-danger result-card">
+                ❌ <strong>Error:</strong> {{ website_error or email_error }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- JavaScript for Loading Animation -->
+    <script>
+        document.getElementById('scanForm').addEventListener('submit', function() {
+            document.getElementById('loader').style.display = 'block';
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
